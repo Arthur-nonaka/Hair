@@ -217,28 +217,23 @@ export default function Clients() {
                       />
                     </Button>
                   </div>
+                  <div>
+                    <Button
+                      variant="outline-primary"
+                      onClick={() => navigate(`/notes/${client.id}`)}
+                    >
+                      <img
+                        src="/view.png"
+                        alt="Deletar"
+                        style={{
+                          width: "25px",
+                          height: "25px",
+                          objectFit: "contain",
+                        }}
+                      />
+                    </Button>
+                  </div>
                 </div>
-                <Button
-                  variant="warning"
-                  size="sm"
-                  onClick={() => openEditModal(client)}
-                >
-                  Editar
-                </Button>{" "}
-                <Button
-                  variant="danger"
-                  size="sm"
-                  onClick={() => handleDelete(client.id)}
-                >
-                  Deletar
-                </Button>{" "}
-                <Button
-                  variant="primary"
-                  size="sm"
-                  onClick={() => navigate(`/notes/${client.id}`)}
-                >
-                  Observações
-                </Button>
               </td>
             </tr>
           ))}

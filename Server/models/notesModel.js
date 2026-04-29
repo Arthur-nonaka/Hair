@@ -5,7 +5,7 @@ const db = knex(knexConfig.development);
 const TABLE = "notes";
 
 async function findAll() {
-  return db(TABLE).select("*").orderBy("id", "desc");
+  return db(TABLE).select("*").orderBy("created_at", "desc");
 }
 
 async function findById(id) {
@@ -13,11 +13,11 @@ async function findById(id) {
 }
 
 async function findByClientId(client_id) {
-  return db(TABLE).where({ client_id }).orderBy("id", "desc");
+  return db(TABLE).where({ client_id }).orderBy("created_at", "desc");
 }
 
 async function findByFilter(filter = {}) {
-  const query = db(TABLE).select("*").orderBy("id", "desc");
+  const query = db(TABLE).select("*").orderBy("created_at", "desc");
 
   if (filter.client_id) {
     query.where("client_id", filter.client_id);

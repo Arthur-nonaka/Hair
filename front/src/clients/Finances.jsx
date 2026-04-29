@@ -169,6 +169,29 @@ export default function Finances() {
     [finances],
   );
 
+  const totalIncome = useMemo(
+    () =>
+      incomeFinances.reduce(
+        (sum, finance) => sum + Number(finance.amount || 0),
+        0,
+      ),
+    [incomeFinances],
+  );
+
+  const totalExpense = useMemo(
+    () =>
+      expenseFinances.reduce(
+        (sum, finance) => sum + Number(finance.amount || 0),
+        0,
+      ),
+    [expenseFinances],
+  );
+
+  const finalBalance = useMemo(
+    () => totalIncome - totalExpense,
+    [totalIncome, totalExpense],
+  );
+
   return (
     <Container>
       <h1>Finanças</h1>
@@ -250,16 +273,28 @@ export default function Finances() {
         </thead>
         <tbody>
           {incomeFinances.map((finance) => (
-            <tr key={finance.id} className="align-middle" height={"5vh"}>
-              <td className="align-middle">{finance.description}</td>
-              <td className="text-success fw-bold align-middle">
+            <tr key={finance.id} className="align-middle">
+              <td className="align-top position-relative" width={"50%"}>
+                <p
+                  className="position-absolute text-muted small px-1 text-primary"
+                  style={{
+                    top: "0px",
+                    right: "0px",
+                    borderRadius: "0px 0px 0px 6px",
+                    padding: "2px 4px",
+                  }}
+                >
+                  •{new Date(finance.created_at).toLocaleDateString("pt-BR")}
+                </p>
+                {finance.description}
+              </td>
+              <td className="text-success fw-bold align-middle" width={"33%"}>
                 {formatCurrency(finance.amount)}
               </td>
               <td className="text-end">
-                {new Date(finance.created_at).toLocaleDateString("pt-BR")}
                 <div
                   className="justify-content-end"
-                  style={{ display: "flex", gap: "5px", marginTop: "5px" }}
+                  style={{ display: "flex", gap: "5px" }}
                 >
                   <div>
                     <Button
@@ -270,8 +305,8 @@ export default function Finances() {
                         src="/edit.png"
                         alt="Editar"
                         style={{
-                          width: "25px",
-                          height: "25px",
+                          width: "15px",
+                          height: "15px",
                           objectFit: "contain",
                         }}
                       />
@@ -286,8 +321,8 @@ export default function Finances() {
                         src="/bin.png"
                         alt="Deletar"
                         style={{
-                          width: "25px",
-                          height: "25px",
+                          width: "15px",
+                          height: "15px",
                           objectFit: "contain",
                         }}
                       />
@@ -313,16 +348,28 @@ export default function Finances() {
         </thead>
         <tbody>
           {expenseFinances.map((finance) => (
-            <tr key={finance.id} className="align-middle" height={"5vh"}>
-              <td className="align-middle">{finance.description}</td>
-              <td className="text-danger fw-bold align-middle">
+            <tr key={finance.id} className="align-middle">
+              <td className="align-top position-relative" width={"50%"}>
+                <p
+                  className="position-absolute text-muted small px-1 text-primary"
+                  style={{
+                    top: "0px",
+                    right: "0px",
+                    borderRadius: "0px 0px 0px 6px",
+                    padding: "2px 4px",
+                  }}
+                >
+                  •{new Date(finance.created_at).toLocaleDateString("pt-BR")}
+                </p>
+                {finance.description}
+              </td>
+              <td className="text-danger fw-bold align-middle" width={"33%"}>
                 -{formatCurrency(finance.amount)}
               </td>
               <td className="text-end">
-                {new Date(finance.created_at).toLocaleDateString("pt-BR")}
                 <div
                   className="justify-content-end"
-                  style={{ display: "flex", gap: "5px", marginTop: "5px" }}
+                  style={{ display: "flex", gap: "5px" }}
                 >
                   <div>
                     <Button
@@ -333,8 +380,8 @@ export default function Finances() {
                         src="/edit.png"
                         alt="Editar"
                         style={{
-                          width: "25px",
-                          height: "25px",
+                          width: "15px",
+                          height: "15px",
                           objectFit: "contain",
                         }}
                       />
@@ -349,8 +396,8 @@ export default function Finances() {
                         src="/bin.png"
                         alt="Deletar"
                         style={{
-                          width: "25px",
-                          height: "25px",
+                          width: "15px",
+                          height: "15px",
                           objectFit: "contain",
                         }}
                       />
@@ -481,6 +528,23 @@ export default function Finances() {
           </Button>
         </Modal.Footer>
       </Modal>
+      <Card
+        className="position-absolute"
+        style={{ right: "0px", width: "16%", top: "100px", borderRadius: "7px 0px 0px 7px" }}
+      >
+        <Card.Header className="bg-transparent border-0 text-muted small border-bottom border-secondary">
+          <h2>Resumo</h2>
+        </Card.Header>
+        <Card.Body className="display-6">
+          <Card.Text className="text-success">{formatCurrency(totalIncome)}</Card.Text>
+          <Card.Text className="text-danger">- {formatCurrency(totalExpense)}</Card.Text>
+          <Card.Text 
+            className={finalBalance >= 0 ? "text-success border-top" : "text-danger border-top"}
+          >
+            {formatCurrency(finalBalance)}
+          </Card.Text>
+        </Card.Body>
+      </Card>
     </Container>
   );
 }

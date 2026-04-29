@@ -5,7 +5,7 @@ const db = knex(knexConfig.development);
 const TABLE = "clients";
 
 async function findAll() {
-  return db(TABLE).select("*").orderBy("id", "desc");
+  return db(TABLE).select("*").orderBy("name", "asc");
 }
 
 async function findById(id) {
@@ -13,7 +13,7 @@ async function findById(id) {
 }
 
 async function findByFilter(filter = {}) {
-  const query = db(TABLE).select("*").orderBy("id", "desc");
+  const query = db(TABLE).select("*").orderBy("name", "asc");
 
   if (filter.name && filter.name.trim() !== "") {
     query.where("name", "like", `%${filter.name.trim()}%`);

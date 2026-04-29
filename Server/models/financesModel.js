@@ -5,7 +5,7 @@ const db = knex(knexConfig.development);
 const TABLE = "finances";
 
 async function findAll() {
-  return db(TABLE).select("*").orderBy("id", "desc");
+  return db(TABLE).select("*").orderBy("created_at", "desc");
 }
 
 async function findById(id) {
@@ -13,10 +13,10 @@ async function findById(id) {
 }
 
 async function findByFilter(filter = {}) {
-  const query = db(TABLE).select("*").orderBy("id", "desc");
+  const query = db(TABLE).select("*").orderBy("created_at", "desc");
 
-  if (filter.is_paid !== undefined && filter.is_paid !== '') {
-    query.where("is_paid", filter.is_paid === 'true');
+  if (filter.is_paid !== undefined && filter.is_paid !== "") {
+    query.where("is_paid", filter.is_paid === "true");
   }
 
   if (filter.description && filter.description.trim() !== "") {
@@ -29,6 +29,14 @@ async function findByFilter(filter = {}) {
 
   if (filter.max_amount) {
     query.where("amount", "<=", parseFloat(filter.max_amount));
+  }
+
+  if (filter.year) {
+    query.whereRaw("YEAR(created_at) = ?", [parseInt(filter.year, 10)]);
+  }
+
+  if (filter.month) {
+    query.whereRaw("MONTH(created_at) = ?", [parseInt(filter.month, 10)]);
   }
 
   if (filter.start_date) {
