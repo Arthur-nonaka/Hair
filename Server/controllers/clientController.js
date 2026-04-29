@@ -1,4 +1,4 @@
-const clientModel = require("../Models/clientModel");
+const clientModel = require("../models/clientModel");
 
 class ClientController {
   async getAll(req, res) {

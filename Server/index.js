@@ -6,9 +6,9 @@ const port = 3000;
 app.use(cors());
 app.use(express.json());
 
-const clientController = require("./Controllers/clientController");
-const notesController = require("./Controllers/notesController");
-const financesController = require("./Controllers/financesController");
+const clientController = require("./controllers/clientController");
+const notesController = require("./controllers/notesController");
+const financesController = require("./controllers/financesController");
 
 //Client routes
 app.get("/clients", clientController.getAll);

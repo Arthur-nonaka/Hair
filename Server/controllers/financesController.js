@@ -1,4 +1,4 @@
-const financesModel = require("../Models/financesModel");
+const financesModel = require("../models/financesModel");
 
 class FinancesController {
   async getAll(req, res) {

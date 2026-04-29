@@ -15,8 +15,8 @@ async function findById(id) {
 async function findByFilter(filter = {}) {
   const query = db(TABLE).select("*").orderBy("id", "desc");
 
-  if (filter.is_paid !== undefined) {
-    query.where("is_paid", filter.is_paid);
+  if (filter.is_paid !== undefined && filter.is_paid !== '') {
+    query.where("is_paid", filter.is_paid === 'true');
   }
 
   if (filter.description && filter.description.trim() !== "") {
@@ -24,11 +24,19 @@ async function findByFilter(filter = {}) {
   }
 
   if (filter.min_amount) {
-    query.where("amount", ">=", filter.min_amount);
+    query.where("amount", ">=", parseFloat(filter.min_amount));
   }
 
   if (filter.max_amount) {
-    query.where("amount", "<=", filter.max_amount);
+    query.where("amount", "<=", parseFloat(filter.max_amount));
+  }
+
+  if (filter.start_date) {
+    query.where("created_at", ">=", filter.start_date);
+  }
+
+  if (filter.end_date) {
+    query.where("created_at", "<=", filter.end_date);
   }
 
   return query;

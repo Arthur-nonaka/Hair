@@ -7,6 +7,7 @@ exports.up = function (knex) {
     table.increments("id").primary();
     table.decimal("amount", 10, 2).notNullable();
     table.boolean("is_paid").nullable();
+    table.string("type", 20).nullable();
     table.text("description").nullable();
 
     table.timestamps(true, true);

@@ -27,6 +27,12 @@ async function findByFilter(filter = {}) {
   if (filter.address && filter.address.trim() !== "") {
     query.where("address", "like", `%${filter.address.trim()}%`);
   }
+  if (filter.start_date) {
+    query.where("created_at", ">=", filter.start_date);
+  }
+  if (filter.end_date) {
+    query.where("created_at", "<=", filter.end_date);
+  }
 
   return query;
 }

@@ -1,4 +1,4 @@
-const notesModel = require("../Models/notesModel");
+const notesModel = require("../models/notesModel");
 
 class NotesController {
   async getAll(req, res) {

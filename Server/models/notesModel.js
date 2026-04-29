@@ -27,6 +27,14 @@ async function findByFilter(filter = {}) {
     query.where("content", "like", `%${filter.content.trim()}%`);
   }
 
+  if (filter.start_date) {
+    query.where("created_at", ">=", filter.start_date);
+  }
+
+  if (filter.end_date) {
+    query.where("created_at", "<=", filter.end_date);
+  }
+
   return query;
 }
 
